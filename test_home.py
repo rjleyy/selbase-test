@@ -41,3 +41,20 @@ class TestHomePage(BaseCase):
         for i, text in enumerate(expected_nav_text, start=1):
             self.assert_text(text, f".main-menu li:nth-child({i})")
 
+    def test_about_link(self):
+        self.open("https://practice-react.sdetunicorns.com/")
+        # click on the About Us link in the main-menu
+        self.click(".footer-list ul li:nth-child(1) a")
+        # Verify that the url contains "about"
+        self.assert_url_contains("about")
+
+    def test_product_categories(self):
+        self.open("https://practice-react.sdetunicorns.com/")
+        # click on the Product page link in the main menu
+        self.click(".main-menu li:nth-child(2)")
+        # create a list of category items in the products page
+        category_items = ["All Categories", "Laptop", "Electronics", "Keyboard"]
+        # create a loop that checks all links are present in the category items
+        for i, text in enumerate(category_items, start=1):
+            self.assert_text(text, f".sidebar-widget li:nth-child({i})")
+        # verify that the categories on the left side of the screen are listed on the page
