@@ -57,4 +57,4 @@ class TestHomePage(BaseCase):
         # create a loop that checks all links are present in the category items
         for i, text in enumerate(category_items, start=1):
             self.assert_text(text, f".sidebar-widget li:nth-child({i})")
-        # verify that the categories on the left side of the screen are listed on the page
+        # verify that the categories on the left side of the screen are listed on the pages
