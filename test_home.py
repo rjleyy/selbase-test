@@ -45,6 +45,7 @@ class TestHomePage(BaseCase):
         self.open("https://practice-react.sdetunicorns.com/")
         # click on the About Us link in the main-menu
         self.click(".footer-list ul li:nth-child(1) a")
+        # ALSO CAN BE SHOWN AS THIS self.click(".footer-list [href='/about']")
         # Verify that the url contains "about"
         self.assert_url_contains("about")
 
@@ -56,5 +57,22 @@ class TestHomePage(BaseCase):
         category_items = ["All Categories", "Laptop", "Electronics", "Keyboard"]
         # create a loop that checks all links are present in the category items
         for i, text in enumerate(category_items, start=1):
-            self.assert_text(text, f".sidebar-widget li:nth-child({i})")
-        # verify that the categories on the left side of the screen are listed on the pages
+            self.assert_text(text, f".sidebar-widget-list.mt-30 li:nth-child({i})")
+        # verify that the categories on the left side of the screen are listed on the page
+
+    def test_new_tab(self):
+        self.open("https://practice-react.sdetunicorns.com/")
+        # Before state for tabs
+        print(self.driver.window_handles)
+        self.click('.copyright p a')
+        # After state for tabs
+        print(self.driver.window_handles)
+        # Index into the tab list
+        self.switch_to_tab(1)
+        # Assert that you are on the new tab
+        self.assert_title_contains('Master Software Testing and Automation')
+        # Switch back to original position
+        self.switch_to_default_tab()
+        self.assert_title_contains('Practice with React')
+
+
