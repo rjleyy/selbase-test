@@ -1,10 +1,10 @@
 from seleniumbase import BaseCase
+from pages.home_page import HomePage
 
 class TestHomePage(BaseCase):
     def test_verify_page_title_and_url(self):
-    # open home page
-        self.open("https://practice-react.sdetunicorns.com/")
-
+        homepage = HomePage(self)
+        homepage.open()
     # assert url and title contains SDET Unicorns
         self.assert_url_contains("sdetunicorns")
         self.assert_title_contains("SDET Unicorns")
@@ -12,13 +12,10 @@ class TestHomePage(BaseCase):
     # new definitions for search test functions
 
     def test_search_flow(self):
-        self.open("https://practice-react.sdetunicorns.com/")
+        homepage = HomePage(self)
+        homepage.open()
         # This function clicks on the search input field.
-        self.click(".search-active")
-        # Type 'Lenovo' the search field input
-        self.type("[placeholder='Search']", "Lenovo")
-        # Click on search button to enter the search
-        self.click(".button-search")
+        homepage.search_for_item('Lenovo')
         # assert to see if the Showing Results text is visible
         self.assert_text_visible("Showing Results for Lenovo")
 
@@ -34,25 +31,26 @@ class TestHomePage(BaseCase):
         self.assert_text_visible("Showing Results for Lenovo")
 
     def test_nav_links(self):
-        self.open("https://practice-react.sdetunicorns.com/")
-        self.assert_text("Products", ".main-menu li:nth-child(2)")
-        # create a list with all of the links
+        homepage = HomePage(self)
+        homepage.open()
+        self.assert_text("Products", homepage.product_link)
         expected_nav_text = ["Home", "Products", "About Us", "Contact", "Upload", ]
-        for i, text in enumerate(expected_nav_text, start=1):
-            self.assert_text(text, f".main-menu li:nth-child({i})")
+        homepage.verify_nav_links(expected_nav_text)
 
     def test_about_link(self):
-        self.open("https://practice-react.sdetunicorns.com/")
+        homepage = HomePage(self)
+        homepage.open()
         # click on the About Us link in the main-menu
-        self.click(".footer-list ul li:nth-child(1) a")
+        self.click(homepage.about_link)
         # ALSO CAN BE SHOWN AS THIS self.click(".footer-list [href='/about']")
         # Verify that the url contains "about"
         self.assert_url_contains("about")
 
     def test_product_categories(self):
-        self.open("https://practice-react.sdetunicorns.com/")
+        homepage = HomePage(self)
+        homepage.open()
         # click on the Product page link in the main menu
-        self.click(".main-menu li:nth-child(2)")
+        self.click(homepage.product_link)
         # create a list of category items in the products page
         category_items = ["All Categories", "Laptop", "Electronics", "Keyboard"]
         # create a loop that checks all links are present in the category items
@@ -61,10 +59,11 @@ class TestHomePage(BaseCase):
         # verify that the categories on the left side of the screen are listed on the page
 
     def test_new_tab(self):
-        self.open("https://practice-react.sdetunicorns.com/")
+        homepage = HomePage(self)
+        homepage.open()
         # Before state for tabs
         print(self.driver.window_handles)
-        self.click('.copyright p a')
+        self.click(homepage.copyright_link)
         # After state for tabs
         print(self.driver.window_handles)
         # Index into the tab list
