@@ -1,11 +1,24 @@
 from seleniumbase import BaseCase
 from pages.home_page import HomePage
 
+
 class TestHomePage(BaseCase):
+    """
+    Page object class for Home Page
+    Encapsulates all interactions with Home Page
+    """
+
+    def setUp(self, masterqa_mode=False):
+        super().setUp() # This will call the parent class when needed
+        self.homepage = HomePage(self)
+        self.homepage.open()
+
+    def tearDown(self):
+        print('Log Out')
+        super().tearDown()
+
     def test_verify_page_title_and_url(self):
-        homepage = HomePage(self)
-        homepage.open()
-    # assert url and title contains SDET Unicorns
+        # assert url and title contains SDET Unicorns
         self.assert_url_contains("sdetunicorns")
         self.assert_title_contains("SDET Unicorns")
 
@@ -13,14 +26,13 @@ class TestHomePage(BaseCase):
 
     def test_search_flow(self):
         homepage = HomePage(self)
-        homepage.open()
         # This function clicks on the search input field.
-        homepage.search_for_item('Lenovo')
+        homepage.search_for_item("Lenovo")
         # assert to see if the Showing Results text is visible
         self.assert_text_visible("Showing Results for Lenovo")
 
     def test_search_flow_with_xpath(self):
-        self.open("https://practice-react.sdetunicorns.com/")
+        homepage = HomePage(self)
         # This function clicks on the search input field.
         self.click("//button[@class='search-active']")
         # Type 'Lenovo' the search field input
@@ -32,14 +44,18 @@ class TestHomePage(BaseCase):
 
     def test_nav_links(self):
         homepage = HomePage(self)
-        homepage.open()
         self.assert_text("Products", homepage.product_link)
-        expected_nav_text = ["Home", "Products", "About Us", "Contact", "Upload", ]
+        expected_nav_text = [
+            "Home",
+            "Products",
+            "About Us",
+            "Contact",
+            "Upload",
+        ]
         homepage.verify_nav_links(expected_nav_text)
 
     def test_about_link(self):
         homepage = HomePage(self)
-        homepage.open()
         # click on the About Us link in the main-menu
         self.click(homepage.about_link)
         # ALSO CAN BE SHOWN AS THIS self.click(".footer-list [href='/about']")
@@ -48,7 +64,6 @@ class TestHomePage(BaseCase):
 
     def test_product_categories(self):
         homepage = HomePage(self)
-        homepage.open()
         # click on the Product page link in the main menu
         self.click(homepage.product_link)
         # create a list of category items in the products page
@@ -60,7 +75,6 @@ class TestHomePage(BaseCase):
 
     def test_new_tab(self):
         homepage = HomePage(self)
-        homepage.open()
         # Before state for tabs
         print(self.driver.window_handles)
         self.click(homepage.copyright_link)
@@ -69,9 +83,7 @@ class TestHomePage(BaseCase):
         # Index into the tab list
         self.switch_to_tab(1)
         # Assert that you are on the new tab
-        self.assert_title_contains('Master Software Testing and Automation')
+        self.assert_title_contains("Master Software Testing and Automation")
         # Switch back to original position
         self.switch_to_default_tab()
-        self.assert_title_contains('Practice with React')
-
-
+        self.assert_title_contains("Practice with React")

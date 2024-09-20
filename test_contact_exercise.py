@@ -1,8 +1,39 @@
 from seleniumbase import BaseCase
+from parameterized import parameterized
+
+
 
 class TestContactPage(BaseCase):
 
-    # Positive Assertions
+    @parameterized.expand([
+        (
+            'test',
+            'test@email.com',
+            'test subject',
+            'test message'
+        ),
+        (
+            'test2',
+            'test2@gmail.com',
+            'test subject2',
+            'test message2',
+
+        ),
+
+    ])
+    def test_from_submisson_param(self, name, email, subject, message):
+        self.open('https://practice-react.sdetunicorns.com/contact')
+        self.click('.col-lg-6')
+        self.type('[placeholder="Name*"]', name)
+        self.click('.col-lg-6')
+        self.type('[placeholder="Email*"]', email)
+        self.click('.col-lg-12')
+        self.type('[placeholder="Subject*"]', subject)
+        self.click('.col-lg-12')
+        self.type('[placeholder="Your Message*"]', message)
+        self.click('.submit')
+        # self.assert_element_visible('.react-toast-notifications__container') # It looks like this element is always present and the sent message disappears after it shows
+        self.assert_text('Message sent successfully', ".react-toast-notifications__toast__content")
 
     def test_sent_message(self):
         self.open('https://practice-react.sdetunicorns.com/contact')
