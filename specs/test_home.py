@@ -1,6 +1,7 @@
 from seleniumbase import BaseCase
 from pages.home_page import HomePage
-
+from utils.helper import assert_list_text
+import pytest
 
 class TestHomePage(BaseCase):
     """
@@ -17,20 +18,22 @@ class TestHomePage(BaseCase):
         print('Log Out')
         super().tearDown()
 
+
+    @pytest.mark.smoke
     def test_verify_page_title_and_url(self):
         # assert url and title contains SDET Unicorns
         self.assert_url_contains("sdetunicorns")
         self.assert_title_contains("SDET Unicorns")
 
     # new definitions for search test functions
-
+    @pytest.mark.search
     def test_search_flow(self):
         homepage = HomePage(self)
         # This function clicks on the search input field.
         homepage.search_for_item("Lenovo")
         # assert to see if the Showing Results text is visible
         self.assert_text_visible("Showing Results for Lenovo")
-
+    @pytest.mark.search
     def test_search_flow_with_xpath(self):
         homepage = HomePage(self)
         # This function clicks on the search input field.
@@ -40,7 +43,7 @@ class TestHomePage(BaseCase):
         # Click on search button to enter the search
         self.click("//button[@class='button-search']")
         # assert to see if the Showing Results text is visible
-        self.assert_text_visible("Showing Results for Lenovo")
+        self.assert_text_visible("Showing Results for Apple")
 
     def test_nav_links(self):
         homepage = HomePage(self)
@@ -52,6 +55,7 @@ class TestHomePage(BaseCase):
             "Contact",
             "Upload",
         ]
+
         homepage.verify_nav_links(expected_nav_text)
 
     def test_about_link(self):
@@ -69,8 +73,9 @@ class TestHomePage(BaseCase):
         # create a list of category items in the products page
         category_items = ["All Categories", "Laptop", "Electronics", "Keyboard"]
         # create a loop that checks all links are present in the category items
-        for i, text in enumerate(category_items, start=1):
-            self.assert_text(text, f".sidebar-widget-list.mt-30 li:nth-child({i})")
+        assert_list_text(self, ".sidebar-widget-list.mt-30 li" ,category_items)
+        ##for i, text in enumerate(category_items, start=1):
+            ##self.assert_text(text, f".sidebar-widget-list.mt-30 li:nth-child({i})")
         # verify that the categories on the left side of the screen are listed on the page
 
     def test_new_tab(self):

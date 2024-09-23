@@ -24,7 +24,7 @@ class UploadPage:
         Uploads file(s) using the specified input selector(s) and file path(s)
 
         :param file_selector: file input element
-        :param file_path: path of the file you want uplaoded
+        :param file_path: path of the file you want uploaded
         """
         self.sb.choose_file(file_selector, file_path)
         self.sb.assert_element(self.preview)
@@ -38,8 +38,7 @@ class UploadPage:
         """
         Uploads file(s) using the specified input selector(s) and file path(s)
 
-        :param file_selector: file input element
-        :param file_path: path of the file you want uploaded
+        :param file_paths: path of the file you want uploaded
         """
         multiple_file_paths = "\n".join(file_paths)
         self._upload_all(self.multi_input, multiple_file_paths)

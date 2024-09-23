@@ -1,5 +1,6 @@
 from seleniumbase import BaseCase
 from config.default import BASE_URL
+from utils.helper import assert_list_text
 
 
 class HomePage:
@@ -24,11 +25,14 @@ class HomePage:
         self.sb.type(self.search_placeholder, item)
         self.sb.click(self.search_button)
 
+
+
     def verify_nav_links(self, expected_nav_text):
         """
         Verifies the text of nav links with expected texts.
         :param expected_nav_text:
 
         """
-        for i, text in enumerate(expected_nav_text, start=1):
-            self.sb.assert_text(text, f"{self.nav_links}:nth-child({i})")
+        assert_list_text(self.sb, self.nav_links, expected_nav_text)
+        #for i, text in enumerate(expected_nav_text, start=1):
+        #    self.sb.assert_text(text, f"{self.nav_links}:nth-child({i})")
