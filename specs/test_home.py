@@ -3,6 +3,7 @@ from pages.home_page import HomePage
 from utils.helper import assert_list_text
 import pytest
 
+
 class TestHomePage(BaseCase):
     """
     Page object class for Home Page
@@ -16,7 +17,7 @@ class TestHomePage(BaseCase):
         self.homepage.open()
 
     def tearDown(self):
-        print('Log Out')
+        print("Log Out")
         super().tearDown()
 
     @pytest.mark.smoke
