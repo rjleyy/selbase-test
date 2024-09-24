@@ -10,14 +10,14 @@ class TestHomePage(BaseCase):
     """
 
     def setUp(self, masterqa_mode=False):
-        super().setUp() # This will call the parent class when needed
+        # This will call the parent class when needed
+        super().setUp()
         self.homepage = HomePage(self)
         self.homepage.open()
 
     def tearDown(self):
         print('Log Out')
         super().tearDown()
-
 
     @pytest.mark.smoke
     def test_verify_page_title_and_url(self):
@@ -33,9 +33,12 @@ class TestHomePage(BaseCase):
         homepage.search_for_item("Lenovo")
         # assert to see if the Showing Results text is visible
         self.assert_text_visible("Showing Results for Lenovo")
+
     @pytest.mark.search
     def test_search_flow_with_xpath(self):
+
         homepage = HomePage(self)
+        homepage.open()
         # This function clicks on the search input field.
         self.click("//button[@class='search-active']")
         # Type 'Lenovo' the search field input
@@ -73,9 +76,9 @@ class TestHomePage(BaseCase):
         # create a list of category items in the products page
         category_items = ["All Categories", "Laptop", "Electronics", "Keyboard"]
         # create a loop that checks all links are present in the category items
-        assert_list_text(self, ".sidebar-widget-list.mt-30 li" ,category_items)
-        ##for i, text in enumerate(category_items, start=1):
-            ##self.assert_text(text, f".sidebar-widget-list.mt-30 li:nth-child({i})")
+        assert_list_text(self, ".sidebar-widget-list.mt-30 li", category_items)
+        # for i, text in enumerate(category_items, start=1):
+        # self.assert_text(text, f".sidebar-widget-list.mt-30 li:nth-child({i})")
         # verify that the categories on the left side of the screen are listed on the page
 
     def test_new_tab(self):
