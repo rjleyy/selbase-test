@@ -2,9 +2,11 @@ from seleniumbase import BaseCase
 from pages.home_page import HomePage
 from utils.helper import assert_list_text
 import pytest
+import requests
+from specs.base_test import BaseTest
 
 
-class TestHomePage(BaseCase):
+class TestHomePage(BaseTest):
     """
     Page object class for Home Page
     Encapsulates all interactions with Home Page

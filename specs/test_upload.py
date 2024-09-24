@@ -8,8 +8,10 @@ from utils.helper import get_image_path
 
 import pytest
 
+from specs.base_test import BaseTest
 
-class TestContactPage(BaseCase):
+
+class TestContactPage(BaseTest):
     @pytest.mark.smoke
     def test_single_file_upload(self):
         upload_page = UploadPage(self)

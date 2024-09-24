@@ -76,7 +76,7 @@ latest_report
 report_archives
 archived_reports
 html_report.html
-report.html
+report/report.html
 report.xml
 dashboard.html
 dashboard.json
