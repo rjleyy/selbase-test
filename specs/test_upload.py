@@ -1,7 +1,5 @@
 import os.path
 
-from seleniumbase import BaseCase
-
 from pages.upload_page import UploadPage
 
 from utils.helper import get_image_path
