@@ -17,13 +17,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
         python-version: '3.12'
     - name: Install dependencies
       run: |
-          python -m pip install pipenv
-	      install pipenv
+        python -m pip install pipenv
+        pipenv install
     - name: Install Chrome
       run: |
         sudo apt install google-chrome-stable
@@ -38,6 +38,21 @@ jobs:
       run: |
         echo "def test_1(): pass" > nothing.py
         pipenv run pytest nothing.py
-    - name: Run pytest
+    - name: Run Linter
       run: |
-        pipenv run pytest specs/test_home.py --browser=chrome --headless -v -s
+        pipenv run flake8 specs/
+    - name: Run File Formatter
+      run: |
+        pipenv run black --check specs/
+    - name: Run tests on Browserstack
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      run: |
+        pipenv run pytest specs/test_upload.py specs/test_shop.py -n=4 --browser=remote --server=${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}@hub.browserstack.com --cap_file=config/bs_caps.json --headless -v -s --dashboard --html=report/report.html
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: HTML Report
+        path: report/
