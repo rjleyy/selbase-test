@@ -47,7 +47,7 @@ class TestHomePage(BaseTest):
         # Click on search button to enter the search
         self.click("//button[@class='button-search']")
         # assert to see if the Showing Results text is visible
-        self.assert_text_visible("Showing Results for Apple")
+        self.assert_text_visible("Showing Results for Lenovo")
 
     def test_nav_links(self):
         homepage = HomePage(self)
